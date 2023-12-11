@@ -1,0 +1,91 @@
+openapi: 3.0.0
+info:
+  title: GitHub Repo API
+  version: 1.0.0
+tags:
+  - name: GitHub
+    description: GitHub Repository API
+paths:
+  /github/{username}/repositories:
+    get:
+      tags:
+        - GitHub
+      summary: Get user repositories
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+          description: GitHub username
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                - repository: Repository test
+                  ownerLogin: Kleder
+                  branches:
+                    - name: main
+                      sha: f8a602180439855ee8809a0066cd805f7aed0c57
+                    - name: develop
+                      sha: f8a602180439855ee8809a0066cd805f7aed0c58
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/RepositoryDto'
+  /github/{owner}/{repo}/branches:
+    get:
+      tags:
+        - GitHub
+      summary: Get repository branches
+      parameters:
+        - name: owner
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Repository owner
+        - name: repo
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Repository name
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                - name: main
+                  sha: f8a602180439855ee8809a0066cd805f7aed0c57
+                - name: develop
+                  sha: f8a602180439855ee8809a0066cd805f7aed0c58
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Branch'
+
+components:
+  schemas:
+    RepositoryDto:
+      type: object
+      properties:
+        repository:
+          type: string
+        ownerLogin:
+          type: string
+        branches:
+          type: array
+          items:
+            $ref: '#/components/schemas/Branch'
+
+    Branch:
+      type: object
+      properties:
+        name:
+          type: string
+        sha:
+          type: string
