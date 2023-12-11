@@ -7,6 +7,7 @@ import axios from 'axios';
 import { GetRepositoryBranches } from './get-repository-branches';
 import { BadRequestException } from '../../errors/badRequest.exception';
 import { GitEndpoints } from '../../shared/enums/git-endpoints';
+import configuration from '../../shared/configuration';
 
 @Injectable()
 export class GetUserRepositories implements IGetUserRepositories {
@@ -15,7 +16,7 @@ export class GetUserRepositories implements IGetUserRepositories {
   async get(userName: string): Promise<GetUserRepositoriesResult> {
     let apiResponse;
     try {
-      const apiEndpoint = process.env.GITHUB_API_ENDPOINT;
+      const apiEndpoint = configuration().git_api;
       const url = apiEndpoint + GitEndpoints.USER_REPOSITORIES
         .replace('${userName}', userName);
 

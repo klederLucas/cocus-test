@@ -9,11 +9,14 @@ This project is designed to retrieve information about branches within a GitHub 
 * Axios: A promise-based HTTP client.
 
 ## Installation
-To install the project dependencies and run it, simply execute the following command in your terminal:
+To install the project dependencies and run it, simply execute the following commands in your terminal:
 
 ```
 npm install
+npm run start
 ```
+
+There is also an `.env.example` that can be configured to a different url if it is needed, or in a case of different environments
 
 
 ## Usage

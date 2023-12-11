@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { IGetBranchLastCommit } from './interfaces/get-branch-last-commit.interface';
 import axios from 'axios';
 import { GitEndpoints } from '../../shared/enums/git-endpoints';
+import configuration from '../../shared/configuration';
 
 @Injectable()
 export class GetBranchLastCommit implements IGetBranchLastCommit {
@@ -12,7 +13,7 @@ export class GetBranchLastCommit implements IGetBranchLastCommit {
     repository: string,
     branch: string,
   ): Promise<string> {
-    const apiEndpoint = process.env.GITHUB_API_ENDPOINT;
+    const apiEndpoint = configuration().git_api;
     const url = apiEndpoint + GitEndpoints.BRANCH_LAST_COMMIT
       .replace('${owner}', owner)
       .replace('${repository}', repository)

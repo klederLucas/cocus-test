@@ -7,6 +7,7 @@ import axios from 'axios';
 import { GetBranchLastCommit } from './get-branch-last-commit';
 import { BadRequestException } from '../../errors/badRequest.exception';
 import { GitEndpoints } from '../../shared/enums/git-endpoints';
+import configuration from '../../shared/configuration';
 
 @Injectable()
 export class GetRepositoryBranches implements IGetRepositoryBranches {
@@ -18,7 +19,7 @@ export class GetRepositoryBranches implements IGetRepositoryBranches {
   ): Promise<GetRepositoryBranchesResult> {
     let apiResponse;
     try {
-      const apiEndpoint = process.env.GITHUB_API_ENDPOINT;
+      const apiEndpoint = configuration().git_api;
       const url = apiEndpoint + GitEndpoints.REPOSITORIES_BRANCHES
         .replace('${owner}', owner)
         .replace('${repository}', repository);
