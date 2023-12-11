@@ -3,6 +3,7 @@ import { IGetBranchLastCommit } from './interfaces/get-branch-last-commit.interf
 import axios from 'axios';
 import { GitEndpoints } from '../../shared/enums/git-endpoints';
 import configuration from '../../shared/configuration';
+import { BadRequestException } from '../../errors/badRequest.exception';
 
 @Injectable()
 export class GetBranchLastCommit implements IGetBranchLastCommit {
@@ -19,7 +20,14 @@ export class GetBranchLastCommit implements IGetBranchLastCommit {
       .replace('${repository}', repository)
       .replace('${branch}', branch);
 
-    const apiResponse = await axios.get(url);
+    let apiResponse;
+    try {
+      apiResponse = await axios.get(url);
+    } catch (error) {
+      throw new BadRequestException(
+        `Error during GitHub API call: ${error.message}`,
+      );
+    }
 
     return apiResponse.data.commit.commit.tree.sha;
   }
