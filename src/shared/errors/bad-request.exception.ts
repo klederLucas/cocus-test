@@ -1,5 +1,5 @@
-import { ExceptionMessageEnum } from './enums/exceptionMessage.enum';
 import { HttpStatus } from '@nestjs/common';
+import { ExceptionMessageEnum } from '../enums/exception-message.enum';
 
 export class BadRequestException extends Error {
   message: string;
