@@ -5,9 +5,10 @@ import {
 } from './interfaces/get-user-repositories.interface';
 import axios from 'axios';
 import { GetRepositoryBranches } from './get-repository-branches';
-import { BadRequestException } from '../../errors/badRequest.exception';
-import { GitEndpoints } from '../../shared/enums/git-endpoints';
+import { BadRequestException } from '../../shared/errors/bad-request.exception';
+import { GitEndpointsEnum } from '../../shared/enums/git-endpoints.enum';
 import configuration from '../../shared/configuration';
+import { NotFoundException } from '../../shared/errors/not-found.exception';
 
 @Injectable()
 export class GetUserRepositories implements IGetUserRepositories {
@@ -17,14 +18,21 @@ export class GetUserRepositories implements IGetUserRepositories {
     let apiResponse;
     try {
       const apiEndpoint = configuration().git_api;
-      const url = apiEndpoint + GitEndpoints.USER_REPOSITORIES
-        .replace('${userName}', userName);
+      const url =
+        apiEndpoint +
+        GitEndpointsEnum.USER_REPOSITORIES.replace('${userName}', userName);
 
       apiResponse = await axios.get(url);
     } catch (error) {
-      throw new BadRequestException(
-        `Error during GitHub API call: ${error.message}`,
-      );
+      if (error.response.status === 400) {
+        throw new BadRequestException(
+          `Error during GitHub API call: ${error.message}`,
+        );
+      } else if (error.response.status === 404) {
+        throw new NotFoundException(`User ${userName} not found.`);
+      } else {
+        throw new Error(error.message);
+      }
     }
 
     const userRepositoryData: GetUserRepositoriesResult = [];

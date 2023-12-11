@@ -5,8 +5,8 @@ import {
 } from './interfaces/get-repository-branches.interface';
 import axios from 'axios';
 import { GetBranchLastCommit } from './get-branch-last-commit';
-import { BadRequestException } from '../../errors/badRequest.exception';
-import { GitEndpoints } from '../../shared/enums/git-endpoints';
+import { BadRequestException } from '../../shared/errors/bad-request.exception';
+import { GitEndpointsEnum } from '../../shared/enums/git-endpoints.enum';
 import configuration from '../../shared/configuration';
 
 @Injectable()
@@ -20,9 +20,11 @@ export class GetRepositoryBranches implements IGetRepositoryBranches {
     let apiResponse;
     try {
       const apiEndpoint = configuration().git_api;
-      const url = apiEndpoint + GitEndpoints.REPOSITORIES_BRANCHES
-        .replace('${owner}', owner)
-        .replace('${repository}', repository);
+      const url =
+        apiEndpoint +
+        GitEndpointsEnum.REPOSITORIES_BRANCHES
+          .replace( '${owner}',owner)
+          .replace('${repository}', repository);
 
       apiResponse = await axios.get(url);
     } catch (error) {

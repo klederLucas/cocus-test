@@ -3,7 +3,7 @@ import axios from 'axios';
 import { GetUserRepositories } from '../get-user-repositories';
 import { GetRepositoryBranches } from '../get-repository-branches';
 import { GetBranchLastCommit } from '../get-branch-last-commit';
-import { BadRequestException } from '../../../errors/badRequest.exception';
+import { BadRequestException } from '../../../shared/errors/badRequest.exception';
 import { GetRepositoryBranchesResult } from '../interfaces/get-repository-branches.interface';
 
 jest.mock('axios');

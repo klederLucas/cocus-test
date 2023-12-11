@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { IGetBranchLastCommit } from './interfaces/get-branch-last-commit.interface';
 import axios from 'axios';
-import { GitEndpoints } from '../../shared/enums/git-endpoints';
+import { GitEndpointsEnum } from '../../shared/enums/git-endpoints.enum';
 import configuration from '../../shared/configuration';
-import { BadRequestException } from '../../errors/badRequest.exception';
+import { BadRequestException } from '../../shared/errors/bad-request.exception';
 
 @Injectable()
 export class GetBranchLastCommit implements IGetBranchLastCommit {
@@ -15,10 +15,11 @@ export class GetBranchLastCommit implements IGetBranchLastCommit {
     branch: string,
   ): Promise<string> {
     const apiEndpoint = configuration().git_api;
-    const url = apiEndpoint + GitEndpoints.BRANCH_LAST_COMMIT
-      .replace('${owner}', owner)
-      .replace('${repository}', repository)
-      .replace('${branch}', branch);
+    const url =
+      apiEndpoint +
+      GitEndpointsEnum.BRANCH_LAST_COMMIT.replace('${owner}', owner)
+        .replace('${repository}', repository)
+        .replace('${branch}', branch);
 
     let apiResponse;
     try {

@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import axios from 'axios';
 import { GetRepositoryBranches } from '../get-repository-branches';
 import { GetBranchLastCommit } from '../get-branch-last-commit';
-import { BadRequestException } from '../../../errors/badRequest.exception';
+import { BadRequestException } from '../../../shared/errors/badRequest.exception';
 
 jest.mock('axios');
 
