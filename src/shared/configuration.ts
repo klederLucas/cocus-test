@@ -1,3 +1,3 @@
 export default () => ({
-  git_api: process.env.GIT_INITIALIZATION_ERROR || 'https://api.github.com',
+  git_api: process.env.GITHUB_API_ENDPOINT || 'https://api.github.com',
 });
