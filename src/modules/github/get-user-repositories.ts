@@ -36,7 +36,11 @@ export class GetUserRepositories implements IGetUserRepositories {
     }
 
     const userRepositoryData: GetUserRepositoriesResult = [];
-    for (const repository of apiResponse.data) {
+    const repositories = apiResponse.data.filter(
+      (repository) => !repository.fork,
+    );
+
+    for (const repository of repositories) {
       const repoName = repository.name;
       const repoBranches = await this.getRepositoryBranches.get(
         userName,
